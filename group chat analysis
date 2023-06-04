@@ -1,0 +1,273 @@
+# whats-up-chat-analysis
+You can use your WhatsApp data for many data science tasks like sentiment analysis, keyword extraction, named entity recognition, text analysis and several other natural language processing tasks. It also depends on who you are analyzing your WhatsApp messages with because you can find a lot of information from your WhatsApp messages which can also help you to solve business problems.
+import pandas as pd
+
+# Read WhatsApp chat file
+with open("C:\\Users\\kodam\\Desktop\\WhatsApp Chat with Updateds only...📃📃.txt", 'r', encoding='utf-8') as file:
+    data = file.readlines()
+
+# Remove extra lines from the data
+data = [line.strip() for line in data]
+
+# Initialize lists to store extracted information
+senders = []
+messages = []
+dates = []
+times = []
+
+# Extract data from each line
+for line in data:
+    if ': ' in line:
+        sender_message = line.split(': ', 1)
+        if len(sender_message) < 2:
+            continue  # Skip lines that don't match expected format
+
+        sender_info = sender_message[0]
+        message = sender_message[1]
+        sender_parts = sender_info.split('-')
+        if len(sender_parts) < 2:
+            continue  # Skip lines that don't match expected format
+
+        sender = sender_parts[1]
+        date, time = sender_parts[0].split(', ')
+        
+        # Append extracted information to respective lists
+        senders.append(sender)
+        messages.append(message)
+        dates.append(date)
+        times.append(time)
+
+# Create a DataFrame from the extracted information
+df = pd.DataFrame({
+    'sender': senders,
+    'message': messages,
+    'date': dates,
+    'time': times
+})
+
+# Save data to a CSV file
+df.to_csv('whatsapp_chat_processed.csv', index=False)
+df # viewing the data set
+sender	message	date	time
+0	Rachana Tpce	<Media omitted>	06/04/2023	1:33 pm
+1	Rachana Tpce	<Media omitted>	06/04/2023	1:33 pm
+2	Rachana Tpce	From Monday onwards	06/04/2023	1:59 pm
+3	Rachana Tpce	All strength should be attend for clses	06/04/2023	1:59 pm
+4	Rachana Tpce	If any one is irregular they don't have name i...	06/04/2023	2:00 pm
+5	Rachana Tpce	And the project marks should be "0"	06/04/2023	2:01 pm
+6	Rachana Tpce	<Media omitted>	10/04/2023	7:40 pm
+7	Srija Cse	<Media omitted>	12/04/2023	3:06 pm
+8	Srija Cse	devtown fullstack avaru teskunnaroo vallu name...	12/04/2023	8:01 pm
+9	Srija Cse	Evala nyt varaku msg cheyandi	12/04/2023	8:02 pm
+10	Srija Cse	S.Ravali	12/04/2023	9:19 pm
+11	Srija Cse	S.srija	12/04/2023	9:19 pm
+12	Srija Cse	Vellenaa inkaa avaru iyna unaraa	12/04/2023	9:20 pm
+13	Srija Cse	Vennala.p	12/04/2023	9:20 pm
+14	Srija Cse	K .Ashish mounika	12/04/2023	9:27 pm
+15	Srija Cse	Inkaa avaru iyna untey fst ga send cheyyandi	12/04/2023	9:28 pm
+16	Srija Cse	Rachana	12/04/2023	10:04 pm
+17	Srija Cse	K akhila	12/04/2023	10:06 pm
+18	Srija Cse	Mam ki pamputuna names inka avaru anna unteyy ...	13/04/2023	9:55 am
+19	Rachana Tpce	https://iq.opengenus.org/subset-sum-problem-ba...	13/04/2023	1:06 pm
+20	Srija Cse	Hello Future Aspirants	13/04/2023	4:06 pm
+21	Srija Cse	Kindly join this grp	13/04/2023	4:06 pm
+22	Srija Cse	*GREETINGS (UPCOMING ASPIRANTS)*	15/04/2023	3:00 pm
+23	Srija Cse	Kindly join this grp	15/04/2023	3:00 pm
+24	Srija Cse	*Training + Industrial Experience Opportunity*	16/04/2023	8:19 pm
+25	Rachana Tpce	13. Write a TCL script for Sorting a list usin...	17/04/2023	9:11 am
+26	Rachana Tpce	12. TCL script to find the multiples the numbe...	17/04/2023	9:11 am
+27	Rachana Tpce	11. TCL script to find the factorial	17/04/2023	9:11 am
+28	Rachana Tpce	Write on observation for batch 2	17/04/2023	9:11 am
+29	Rachana Tpce	13. Write a TCL script for Sorting a list usin...	17/04/2023	11:19 am
+30	Rachana Tpce	<Media omitted>	17/04/2023	2:12 pm
+31	Rachana Tpce	<Media omitted>	19/04/2023	11:13 am
+32	Rachana Tpce	<Media omitted>	19/04/2023	11:21 am
+33	Sandy Cse	<Media omitted>	20/04/2023	1:26 pm
+34	Sandy Cse	<Media omitted>	20/04/2023	1:26 pm
+35	Srija Cse	*1Stop* in association with *DevClub IIT Delhi...	21/04/2023	8:55 pm
+36	Rachana Tpce	Dear Students,	22/04/2023	4:48 pm
+37	Srija Cse	This message was deleted	22/04/2023	4:52 pm
+38	Srija Cse	Dear Students,	22/04/2023	4:54 pm
+39	Srija Cse	Adi evala kadu session after 29th vallu malli ...	22/04/2023	4:54 pm
+40	Srija Cse	Free of cost anta malli manam attend iynanduku...	22/04/2023	4:57 pm
+41	Srija Cse	FIOT objetctive bits anta andaru prepare cheya...	24/04/2023	10:49 am
+42	Srija Cse	Andaru 10bits pampala antaa	24/04/2023	10:49 am
+df.head(30) # first 30 values of dataset
+sender	message	date	time
+0	Rachana Tpce	<Media omitted>	06/04/2023	1:33 pm
+1	Rachana Tpce	<Media omitted>	06/04/2023	1:33 pm
+2	Rachana Tpce	From Monday onwards	06/04/2023	1:59 pm
+3	Rachana Tpce	All strength should be attend for clses	06/04/2023	1:59 pm
+4	Rachana Tpce	If any one is irregular they don't have name i...	06/04/2023	2:00 pm
+5	Rachana Tpce	And the project marks should be "0"	06/04/2023	2:01 pm
+6	Rachana Tpce	<Media omitted>	10/04/2023	7:40 pm
+7	Srija Cse	<Media omitted>	12/04/2023	3:06 pm
+8	Srija Cse	devtown fullstack avaru teskunnaroo vallu name...	12/04/2023	8:01 pm
+9	Srija Cse	Evala nyt varaku msg cheyandi	12/04/2023	8:02 pm
+10	Srija Cse	S.Ravali	12/04/2023	9:19 pm
+11	Srija Cse	S.srija	12/04/2023	9:19 pm
+12	Srija Cse	Vellenaa inkaa avaru iyna unaraa	12/04/2023	9:20 pm
+13	Srija Cse	Vennala.p	12/04/2023	9:20 pm
+14	Srija Cse	K .Ashish mounika	12/04/2023	9:27 pm
+15	Srija Cse	Inkaa avaru iyna untey fst ga send cheyyandi	12/04/2023	9:28 pm
+16	Srija Cse	Rachana	12/04/2023	10:04 pm
+17	Srija Cse	K akhila	12/04/2023	10:06 pm
+18	Srija Cse	Mam ki pamputuna names inka avaru anna unteyy ...	13/04/2023	9:55 am
+19	Rachana Tpce	https://iq.opengenus.org/subset-sum-problem-ba...	13/04/2023	1:06 pm
+20	Srija Cse	Hello Future Aspirants	13/04/2023	4:06 pm
+21	Srija Cse	Kindly join this grp	13/04/2023	4:06 pm
+22	Srija Cse	*GREETINGS (UPCOMING ASPIRANTS)*	15/04/2023	3:00 pm
+23	Srija Cse	Kindly join this grp	15/04/2023	3:00 pm
+24	Srija Cse	*Training + Industrial Experience Opportunity*	16/04/2023	8:19 pm
+25	Rachana Tpce	13. Write a TCL script for Sorting a list usin...	17/04/2023	9:11 am
+26	Rachana Tpce	12. TCL script to find the multiples the numbe...	17/04/2023	9:11 am
+27	Rachana Tpce	11. TCL script to find the factorial	17/04/2023	9:11 am
+28	Rachana Tpce	Write on observation for batch 2	17/04/2023	9:11 am
+29	Rachana Tpce	13. Write a TCL script for Sorting a list usin...	17/04/2023	11:19 am
+from wordcloud import STOPWORDS
+
+# Initialize comment_words
+comment_words = ''
+
+# Define stopwords
+stopwords = set(STOPWORDS)
+
+# Iterate over each value in the message column
+for val in df.message:
+    val = str(val)
+    tokens = val.split()
+    for word in tokens:
+        word = word.lower()
+        if word not in stopwords:
+            comment_words += word + ' '
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+# Generate word cloud
+wordcloud = WordCloud(width=1000, height=1000, background_color='white', stopwords=stopwords, min_font_size=10).generate(comment_words)
+
+# Display the word cloud using matplotlib
+plt.figure(figsize=(8, 8), facecolor=None)
+plt.imshow(wordcloud)
+plt.axis("off")
+plt.tight_layout(pad=0)
+
+# Show the plot
+plt.show()
+
+import nltk # importing library to perform sentiment analysis 
+from nltk.sentiment.vader import SentimentIntensityAnalyzer ##  importing  SentimentIntensityAnalyzer
+sentiment=SentimentIntensityAnalyzer() # storing in variable  sentiment
+df.describe()
+sender	message	date	time
+count	43	43	43	43
+unique	3	32	12	31
+top	Srija Cse	<Media omitted>	12/04/2023	9:11 am
+freq	24	9	11	4
+df.dropna().sum().count() ## checking for null values
+4
+df.dropna() ## removing null values
+sender	message	date	time
+0	Rachana Tpce	<Media omitted>	06/04/2023	1:33 pm
+1	Rachana Tpce	<Media omitted>	06/04/2023	1:33 pm
+2	Rachana Tpce	From Monday onwards	06/04/2023	1:59 pm
+3	Rachana Tpce	All strength should be attend for clses	06/04/2023	1:59 pm
+4	Rachana Tpce	If any one is irregular they don't have name i...	06/04/2023	2:00 pm
+5	Rachana Tpce	And the project marks should be "0"	06/04/2023	2:01 pm
+6	Rachana Tpce	<Media omitted>	10/04/2023	7:40 pm
+7	Srija Cse	<Media omitted>	12/04/2023	3:06 pm
+8	Srija Cse	devtown fullstack avaru teskunnaroo vallu name...	12/04/2023	8:01 pm
+9	Srija Cse	Evala nyt varaku msg cheyandi	12/04/2023	8:02 pm
+10	Srija Cse	S.Ravali	12/04/2023	9:19 pm
+11	Srija Cse	S.srija	12/04/2023	9:19 pm
+12	Srija Cse	Vellenaa inkaa avaru iyna unaraa	12/04/2023	9:20 pm
+13	Srija Cse	Vennala.p	12/04/2023	9:20 pm
+14	Srija Cse	K .Ashish mounika	12/04/2023	9:27 pm
+15	Srija Cse	Inkaa avaru iyna untey fst ga send cheyyandi	12/04/2023	9:28 pm
+16	Srija Cse	Rachana	12/04/2023	10:04 pm
+17	Srija Cse	K akhila	12/04/2023	10:06 pm
+18	Srija Cse	Mam ki pamputuna names inka avaru anna unteyy ...	13/04/2023	9:55 am
+19	Rachana Tpce	https://iq.opengenus.org/subset-sum-problem-ba...	13/04/2023	1:06 pm
+20	Srija Cse	Hello Future Aspirants	13/04/2023	4:06 pm
+21	Srija Cse	Kindly join this grp	13/04/2023	4:06 pm
+22	Srija Cse	*GREETINGS (UPCOMING ASPIRANTS)*	15/04/2023	3:00 pm
+23	Srija Cse	Kindly join this grp	15/04/2023	3:00 pm
+24	Srija Cse	*Training + Industrial Experience Opportunity*	16/04/2023	8:19 pm
+25	Rachana Tpce	13. Write a TCL script for Sorting a list usin...	17/04/2023	9:11 am
+26	Rachana Tpce	12. TCL script to find the multiples the numbe...	17/04/2023	9:11 am
+27	Rachana Tpce	11. TCL script to find the factorial	17/04/2023	9:11 am
+28	Rachana Tpce	Write on observation for batch 2	17/04/2023	9:11 am
+29	Rachana Tpce	13. Write a TCL script for Sorting a list usin...	17/04/2023	11:19 am
+30	Rachana Tpce	<Media omitted>	17/04/2023	2:12 pm
+31	Rachana Tpce	<Media omitted>	19/04/2023	11:13 am
+32	Rachana Tpce	<Media omitted>	19/04/2023	11:21 am
+33	Sandy Cse	<Media omitted>	20/04/2023	1:26 pm
+34	Sandy Cse	<Media omitted>	20/04/2023	1:26 pm
+35	Srija Cse	*1Stop* in association with *DevClub IIT Delhi...	21/04/2023	8:55 pm
+36	Rachana Tpce	Dear Students,	22/04/2023	4:48 pm
+37	Srija Cse	This message was deleted	22/04/2023	4:52 pm
+38	Srija Cse	Dear Students,	22/04/2023	4:54 pm
+39	Srija Cse	Adi evala kadu session after 29th vallu malli ...	22/04/2023	4:54 pm
+40	Srija Cse	Free of cost anta malli manam attend iynanduku...	22/04/2023	4:57 pm
+41	Srija Cse	FIOT objetctive bits anta andaru prepare cheya...	24/04/2023	10:49 am
+42	Srija Cse	Andaru 10bits pampala antaa	24/04/2023	10:49 am
+ 
+data1=pd.DataFrame()
+data1["positive"]=[sentiment.polarity_scores(i)["pos"]for i in df["message"]] ## using SentimentIntensityAnalyzer checking polarity scores for data
+data1["negative"]=[sentiment.polarity_scores(i)["neg"]for i in df["message"]]
+data1["neutral"]=[sentiment.polarity_scores(i)["neu"]for i in df["message"]]
+data1 # creating dataframe for polarity scores
+positive	negative	neutral
+0	0.000	0.0	1.000
+1	0.000	0.0	1.000
+2	0.000	0.0	1.000
+3	0.348	0.0	0.652
+4	0.000	0.0	1.000
+5	0.000	0.0	1.000
+6	0.000	0.0	1.000
+7	0.000	0.0	1.000
+8	0.000	0.0	1.000
+9	0.000	0.0	1.000
+10	0.000	0.0	1.000
+11	0.000	0.0	1.000
+12	0.000	0.0	1.000
+13	0.000	0.0	1.000
+14	0.000	0.0	1.000
+15	0.000	0.0	1.000
+16	0.000	0.0	1.000
+17	0.000	0.0	1.000
+18	0.000	0.0	1.000
+19	0.000	0.0	1.000
+20	0.000	0.0	1.000
+21	0.730	0.0	0.270
+22	0.000	0.0	1.000
+23	0.730	0.0	0.270
+24	0.000	0.0	1.000
+25	0.000	0.0	1.000
+26	0.106	0.0	0.894
+27	0.000	0.0	1.000
+28	0.000	0.0	1.000
+29	0.000	0.0	1.000
+30	0.000	0.0	1.000
+31	0.000	0.0	1.000
+32	0.000	0.0	1.000
+33	0.000	0.0	1.000
+34	0.000	0.0	1.000
+35	0.000	0.0	1.000
+36	0.722	0.0	0.278
+37	0.000	0.0	1.000
+38	0.722	0.0	0.278
+39	0.128	0.0	0.872
+40	0.446	0.0	0.554
+41	0.000	0.0	1.000
+42	0.000	0.0	1.000
+postive=sum(data1['positive'])
+Negative=sum(data1['negative'])
+neutral=sum(data1['neutral']) ## sum of polarity scores
+if postive<Negative or postive>neutral:
+    print("postive")
+elif postive<neutral or Negative<neutral:
+    print("netural")
+else:
+    print("negative")
+netural
